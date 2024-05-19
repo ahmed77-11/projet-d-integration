@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Estate {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  name        String       @db.VarChar(255)
+  location    String       @db.VarChar(255)
+  description String       @db.VarChar(255)
+  lan         Float
+  lag         Float
+  price       Float
+  bedrooms    Int
+  bathrooms   Int
+  imagesUrls  ImagesUrls[]
+  rate        Int  @default(0)
+  Flat        Flat?
+  House       House?
+  estateType  String @db.VarChar(255)
+  addedBy     Int
+  Owner       Owner        @relation(fields: [addedBy], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  reservations Reservation[]
+}
+
+model ImagesUrls {
+  id       Int    @id @default(autoincrement())
+  url      String @db.VarChar(255)
+  estateId Int
+  estate   Estate @relation(fields: [estateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model Flat {
+  id           Int     @id @default(autoincrement())
+  buildingName String
+  floors       Int
+  parking      Boolean
+  estate       Estate  @relation(fields: [estateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  estateId     Int     @unique
+}
+
+model House {
+  id            Int     @id @default(autoincrement())
+  backyard      Boolean
+  garage        Boolean
+  pool          Boolean
+  numberOfFloor Int
+  estate        Estate  @relation(fields: [estateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  estateId      Int     @unique
+}
+
+model User {
+  id          Int    @id @default(autoincrement())
+  username    String @db.VarChar(255)
+  email       String @db.VarChar(255) 
+  address     String @db.VarChar(255)
+  telephone   String @db.VarChar(255)
+  profilePic  String? @default("")
+  password    String @db.VarChar(255)
+
+  addedBy  Owner?
+  Customer Customer?
+  UserType UserType[]
+}
+
+model Owner {
+  id     Int      @id @default(autoincrement())
+  userId Int      @unique
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Estate Estate[]
+}
+
+model Customer {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  reservations  Reservation[]  
+}
+model UserType {
+  id     Int    @id @default(autoincrement())
+  type   String @db.VarChar(255)
+  userId Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+model Reservation {
+  id          Int       @id @default(autoincrement())
+  startDate   DateTime
+  endDate     DateTime
+  estateId    Int
+  customerId  Int
+  status      ReservationStatus @default(pending)
+  createdAt   DateTime  @default(now())
+  estate      Estate    @relation(fields: [estateId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customer    Customer  @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+}
+enum ReservationStatus {
+  accepted
+  refused
+  pending
+}
