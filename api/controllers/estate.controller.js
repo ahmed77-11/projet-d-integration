@@ -200,6 +200,7 @@ export const getEstatesByOwner = async (req, res) => {
 export const getEstateById = async (req, res) => {
   try {
     const estateId = parseInt(req.params.estateId);
+    console.log(estateId);
     const estate = await prisma.estate.findFirst({ where: { id: estateId } });
     if (!estate) return res.status(404).status("Estate Not Found");
     const imagesUrls = await prisma.imagesUrls.findMany({
@@ -549,9 +550,9 @@ export const findEstateWithReservation = async (req, res) => {
           estateId,
           AND: [
             {
-              status: accepted,
+              status: "accepted",
             },
-            { status: pending },
+            { status: "pending" },
           ],
         },
       });
@@ -566,9 +567,9 @@ export const findEstateWithReservation = async (req, res) => {
           estateId,
           AND: [
             {
-              status: accepted,
+              status: "accepted",
             },
-            { status: pending },
+            { status: "pending" },
           ],
         },
       });

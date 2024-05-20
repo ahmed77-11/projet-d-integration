@@ -61,6 +61,7 @@ const MainSection = () => {
       setLoading(false);
     }
   };
+
   const handleChange = (e) => {
     setSearchParams({ ...searchParams, [e.target.name]: e.target.value });
   };

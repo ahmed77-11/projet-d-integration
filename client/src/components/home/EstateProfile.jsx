@@ -4,14 +4,17 @@ import "../../assets/map.css";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import Calendar from "./Calender";
+import PopupForm from "./PopupForm";
 
 const EstateProfile = () => {
   const [estate, setEstate] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [reservation, setReservation] = useState({});
+  const [open, setOpen] = useState(false);
 
   const params = useParams();
-  console.log(params.estateId);
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -30,6 +33,26 @@ const EstateProfile = () => {
     };
     fetchData();
   }, [params.estateId, error]);
+  useEffect(() => {
+    const fetchReservation = async () => {
+      setLoading(true);
+      try {
+        const res = await axios.get(
+          `/api/reservation/getReservationByEstate/${params.estateId}`
+        );
+        const data = res.data;
+
+        setReservation(data);
+        // console.log(data);
+        setLoading(false);
+      } catch (error) {
+        console.log(error);
+        setError(error);
+      }
+    };
+    fetchReservation();
+  }, [params.estateId, error]);
+  // console.log(reservation);
 
   const lan = parseFloat((Math.round(estate.lan * 100) / 100).toFixed(2)) || 0;
   const lag = parseFloat((Math.round(estate.lag * 100) / 100).toFixed(2)) || 0;
@@ -41,6 +64,9 @@ const EstateProfile = () => {
 
   // console.log(estate.imagesUrls[0].url)
   console.log(estate);
+  const handleOpen = () => {
+    setOpen(!open);
+  };
 
   return loading ? (
     <div className="loader"></div>
@@ -160,6 +186,15 @@ const EstateProfile = () => {
           </div>
         )}
       </div>
+      {reservation && (
+        <div className=" mt-0 py-9">
+          <h1 className="text-2xl font-bold text-center my-4">
+            Reservation Calendar
+          </h1>
+          <Calendar reservations={reservation} />
+        </div>
+      )}
+
       {/* <MapContainer center={position} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -171,22 +206,33 @@ const EstateProfile = () => {
           </Popup>
         </Marker>
       </MapContainer> */}
-      <MapContainer
-        center={position}
-        zoom={13}
-        scrollWheelZoom={true}
-        style={{
-          height: "50vh",
-          width: "100%",
-          marginBottom: "100px",
-        }}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={position} />
-      </MapContainer>
+      {!open && (
+        <MapContainer
+          center={position}
+          zoom={13}
+          scrollWheelZoom={true}
+          style={{
+            height: "50vh",
+            width: "100%",
+            marginBottom: "100px",
+          }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={position} />
+        </MapContainer>
+      )}
+      <div>
+        <button
+          onClick={handleOpen}
+          className="w-full  mb-32 p-6 bg-sidebar text-2xl font-bold text-white text-center my-4"
+        >
+          Make Reservation
+        </button>
+      </div>
+      {open && <PopupForm handleOpen={handleOpen} estateId={params.estateId} />}
     </div>
   );
 };

@@ -6,7 +6,7 @@ import AddEstate from "../components/dashbord/AddEstate";
 import AddFlat from "../components/dashbord/AddFlat";
 import AddHouse from "../components/dashbord/AddHouse";
 import EstatesList from "../components/dashbord/EstatesList";
-import EstateDash from "../components/dashbord/EstateDash";
+import ReservationList from "../components/dashbord/ReservationList";
 
 const Dashbord = () => {
   return (
@@ -24,7 +24,7 @@ const Dashbord = () => {
             <Route path="/addFlat" element={<AddFlat />} />
             <Route path="/addHouse" element={<AddHouse />} />
             <Route path="/EstateList" element={<EstatesList />} />
-            <Route path="/estateProfile/:estateId" element={<EstateDash />} />
+            <Route path="/reservationWhiteList" element={<ReservationList />} />
           </Routes>
         </div>
       </div>

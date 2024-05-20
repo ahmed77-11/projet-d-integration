@@ -1,0 +1,43 @@
+/* src/Calendar.css */
+.calendar-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar-day-name {
+  padding: 8px;
+  text-align: center;
+  background-color: #f3f4f6;
+}
+
+.calendar-day {
+  padding: 8px;
+  text-align: center;
+  border-radius: 4px;
+}
+
+.calendar-day.bg-blue-500 {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.calendar-day.bg-gray-200 {
+  background-color: #e5e7eb;
+}
+
+.calendar-day.text-gray-400 {
+  color: #9ca3af;
+}
