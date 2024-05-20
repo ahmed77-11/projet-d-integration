@@ -422,6 +422,7 @@ export const deleteEstate = async (req, res) => {
 export const findByNameLocationPrice = async (req, res, next) => {
   try {
     const { name, location, priceMax, priceMin } = req.query;
+    console.log(req.query);
 
     let searchQuery = {};
 

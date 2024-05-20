@@ -5,7 +5,7 @@
 
 html {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background: whitesmoke;
   overflow-x: hidden;
 }
@@ -15,9 +15,8 @@ html {
 }
 .size {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
 }
-
 .font-family-karla {
   font-family: karla;
 }
@@ -58,6 +57,51 @@ html {
   background-repeat: no-repeat;
   object-fit: cover;
   width: 100%;
-
   height: 90%;
+}
+
+.bg-search {
+  background-color: #ffffff; /* or your preferred background color */
+}
+
+.full-screen {
+  height: 100vh;
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.form-container {
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 75%;
+}
+
+.input-field {
+  padding: 1rem;
+  outline: none;
+  border: 2px solid #ccc;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.button-search {
+  padding: 1rem;
+  outline: none;
+  border: 2px solid #ccc;
+  background-color: #28a745;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 0 25px 25px 0;
+}
+
+.button-search:hover {
+  background-color: #218838;
 }

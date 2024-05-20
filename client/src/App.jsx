@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
-import EstateProfile from "./pages/EstateProfile";
+import EstateProfile from "./components/home/EstateProfile";
 import Dashbord from "./pages/Dashbord";
 import PrivateRoute from "./components/PrivateRoute";
 
@@ -25,7 +25,6 @@ function App() {
           <Route element={<UserTypeOwner />}>
             <Route path="/dashbord/*" element={<Dashbord />} />
           </Route>
-          <Route path="/estateProfile/:id" element={<EstateProfile />} />
           <Route path="/profile/:id" element={<Profile />} />
           <Route element={<UserTypeCustomer />}>
             <Route path="/*" element={<Home />} />
